@@ -1,0 +1,30 @@
+app = "rose-gadget-abstract-high"
+
+kill_signal = "SIGINT"
+kill_timeout = 5
+
+[env]
+  RUST_LOG = "info"
+  mc_connection = "info"
+  mc_ledger_sync = "info"
+
+[mounts]
+  destination = "/data"
+  source = "rose_gadget_abstract_high_data"
+
+[experimental]
+  allowed_public_ports = []
+
+[[services]]
+  http_checks = []
+  internal_port = 9099
+  protocol = "tcp"
+  script_checks = []
+
+  [services.concurrency]
+    hard_limit = 25
+    soft_limit = 20
+    type = "connections"
+
+  [[services.ports]]
+    port = 443

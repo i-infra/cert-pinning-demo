@@ -1,0 +1,147 @@
+################ Req Section ################
+# This is used by the `openssl req` command
+# to create a certificate request
+
+[ req ]
+
+# Don't prompt for the DN, use configured values instead
+# This saves having to type in your DN each time.
+
+prompt             = no
+string_mask        = default
+distinguished_name = req_dn
+
+# The size of the keys in bits:
+default_bits       = 4096
+
+# The extensions added when generating a CSR
+#req_extensions     = req_ext
+
+[ req_dn ]
+
+countryName            = GB
+stateOrProvinceName    = Somewhere
+organizationName       = Example
+organizationalUnitName = PKI
+commonName             = Example Test Root CA
+
+#[ req_ext ]
+
+# Extensions added to the request
+
+################ CA Section ################
+# This is used with the 'openssl ca' command
+# to sign a request
+
+[ ca ]
+
+default_ca = CA
+
+[ CA ]
+
+# Where OpenSSL stores information
+
+dir             = output                             # Where everything is kept
+certs           = output                        # Where the issued certs are kept
+crldir          = $dir                          # Where the issued crl are kept
+
+new_certs_dir   = $certs
+database        = $dir/index
+certificate     = $certs/ca.pem
+private_key     = $dir/ca.key
+crl             = $crldir/crl.pem
+serial          = $dir/serial.txt
+RANDFILE        = $dir/.rand
+
+# How OpenSSL will display certificate after signing
+name_opt    = ca_default
+cert_opt    = ca_default
+
+# How long the CA certificate is valid for
+default_days = 3650
+# default_startdate  = 180517000000Z
+# default_enddate    = 181231235959Z
+
+# The message digest for self-signing the certificate
+# sha1 or sha256 for best compatability, although most
+# OpenSSL digest algorithm can be used.
+# md4,md5,mdc2,rmd160,sha1,sha256
+default_md = sha256
+
+# Subjects don't have to be unique in this CA's database
+unique_subject    = no
+# What to do with CSR extensions
+copy_extensions    = copy
+
+# Rules on mandatory or optional DN components
+policy      = simple_policy
+
+# Extensions added while singing with the `openssl ca` command
+x509_extensions = x509_ext
+
+[ simple_policy ]
+countryName             = optional
+stateOrProvinceName     = optional
+localityName            = optional
+organizationName        = optional
+organizationalUnitName  = optional
+commonName              = optional
+domainComponent         = optional
+emailAddress            = optional
+name                    = optional
+surname                 = optional
+givenName               = optional
+dnQualifier             = optional
+
+[ ca_ext ]
+# Optional extensions. Use `-extensions ca_ext`
+# These extensions are for a CA certificate
+
+subjectKeyIdentifier    = hash
+authorityKeyIdentifier  = keyid:always
+
+basicConstraints            = critical, CA:TRUE
+# basicConstraints          = critical, CA:TRUE, pathlen:1
+
+keyUsage = critical, keyCertSign, cRLSign
+
+# Policies and constraints are not recommended for Root CAs
+# But could be enforced on subordinate CAs
+
+#nameConstraints        = permitted;DNS:example.org
+
+#policyConstraints = requireExplicitPolicy:1
+
+#inhibitAnyPolicy = 1
+
+#certificatePolicies = @CertPol
+
+[ x509_ext ]
+#Default extensions
+# These extensions are for an end-entity certificate
+
+# Extensions added when using the `openssl ca` command.
+# This section is pointed to by `x509_extensions` above.
+
+subjectKeyIdentifier    = hash
+authorityKeyIdentifier  = keyid:always
+
+# No basicConstraints extension is equal to CA:False
+# basicConstraints      = critical, CA:False
+
+keyUsage = critical, digitalSignature
+
+# Policies and constraints are not recommended for Root CAs
+# But could be enforced on subordinate CAs
+
+#nameConstraints        = permitted;DNS:example.org
+
+#policyConstraints = requireExplicitPolicy:1
+
+#inhibitAnyPolicy = 1
+
+#certificatePolicies = @CertPol
+
+[ CertPol ]
+policyIdentifier = 1.3.6.1.4.132473
+CPS = http://pki.example.org/cps.html
