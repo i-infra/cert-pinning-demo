@@ -7,8 +7,11 @@ This may be overwhelming, but I believe in you. (this is a first draft)
 Workflow:
 
  > ./create_app.sh
+ >
  > (enter app name when prompted)
- > wait a few seconds
+ >
+ > wait a few seconds\
+ >
 
 A successful deploy looks like this:
 
