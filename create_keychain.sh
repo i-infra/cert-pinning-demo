@@ -59,6 +59,7 @@ set +x
 echo "ROOTCRT=$(cat $output/rootcrt.pem | gzip - | base64 --wrap=0)" > $name.secrets
 echo "SERVERCRT=$(cat $output/server.full.pem | gzip - | base64 --wrap=0)" >> $name.secrets
 
+echo "ROOTCRT=" > $name.clientsecrets && base64 $output/rootcrt.pem >> $name.clientsecrets && echo "CLIENTCRT=" >> $name.clientsecrets && base64 $output/client.full.pem >> $name.clientsecrets && sed -i ':a;N;$!ba;s/\n//g' $name.clientsecrets && sed -i "s/CLIENTCRT/\nCLIENTCRT/g" $name.clientsecrets
 ## might be needed for stunnel verif=3
 #rm -f *.0 || true
 #ln -s rootcrt.pem $(openssl x509 -hash -noout -in rootcrt.pem).0
