@@ -45,3 +45,8 @@ or this!
 Please use json data to choose wallet commands. For example,
 
 ```
+
+### Apply keys
+
+ > flyctl secrets set ROOTCRT=(cat output.$NAME/rootcrt.pem|base64 --wrap=0) -a $CLIENTAPPNAME
+ > flyctl secrets set CLIENTCRT=(cat output.$NAME/client.full.pem|base64 --wrap=0) -a $CLIENTAPPNAME
