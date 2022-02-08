@@ -59,6 +59,8 @@ set +x
 echo "ROOTCRT=$(cat $output/rootcrt.pem | gzip - | base64 --wrap=0)" > $name.secrets
 echo "SERVERCRT=$(cat $output/server.full.pem | gzip - | base64 --wrap=0)" >> $name.secrets
 
+
+
 ## might be needed for stunnel verif=3
 #rm -f *.0 || true
 #ln -s rootcrt.pem $(openssl x509 -hash -noout -in rootcrt.pem).0
