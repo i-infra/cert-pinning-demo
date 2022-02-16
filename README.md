@@ -42,13 +42,13 @@ or this!
 ```
  > curl --cert output.lunar-point-become-alone/client.full.pem --cacert output.lunar-point-become-alone/rootcrt.pem https://lunar-point-become-alone.fly.dev/wallet
 
-Please use json data to choose wallet commands. For example,
-
 ```
 
 ### Apply keys
 
  > flyctl secrets set ROOTCRT=(cat output.$NAME/rootcrt.pem|base64 --wrap=0) -a $CLIENTAPPNAME
- > 
+ >
  > flyctl secrets set CLIENTCRT=(cat output.$NAME/client.full.pem|base64 --wrap=0) -a $CLIENTAPPNAME
- > 
+ >
+
+Client secret values are also stored in the `client_secrets` file in the keychain directory.

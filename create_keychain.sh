@@ -58,6 +58,8 @@ echo "Building secrets file!"
 set +x
 echo "ROOTCRT=$(cat $output/rootcrt.pem | gzip - | base64 --wrap=0)" > $name.secrets
 echo "SERVERCRT=$(cat $output/server.full.pem | gzip - | base64 --wrap=0)" >> $name.secrets
+echo "ROOTCRT=$(cat $output/rootcrt.pem | base64 --wrap=0)" > $name.client_secrets
+echo "CLIENTCRT=$(cat $output/client.full.pem | base64 --wrap=0)" >> $name.client_secrets
 
 ## might be needed for stunnel verif=3
 #rm -f *.0 || true

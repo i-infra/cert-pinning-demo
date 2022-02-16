@@ -1,9 +1,9 @@
 FROM ubuntu:latest
-RUN apt-get update && apt-get -yy install curl stunnel
-ENV version="1.1.0"
-RUN curl -sL -o full-service.tar.gz https://github.com/mobilecoinofficial/full-service/releases/download/v$version/mainnet-release-linux-penryn-$version.tar.gz
+RUN apt-get update && apt-get -yy install wget stunnel
+ENV version="1.4.0"
+RUN wget https://github.com/mobilecoinofficial/full-service/releases/download/v$version/linux-v$version.tar.gz -O full-service.tar.gz
 RUN tar xf full-service.tar.gz && rm full-service.tar.gz
-WORKDIR /mainnet
-COPY ./stunnel.docker.conf stunnel.conf
+WORKDIR /linux-v$version
 COPY ./run.sh .
+COPY stunnel.docker.conf stunnel.conf
 ENTRYPOINT ["/bin/bash", "./run.sh"]
