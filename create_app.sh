@@ -31,7 +31,7 @@ flyctl create --org $FLY_ORG --name $APPNAME || true
 
 if [ -z "$(flyctl volumes list --app $APPNAME --config $APPNAME/fly.toml | grep -v No\ Volumes | grep $STORAGENAME)" ]
 then
-    flyctl volumes create --app $APPNAME --config $APPNAME/fly.toml --region $REGION $STORAGENAME
+    flyctl volumes create --app $APPNAME --config $APPNAME/fly.toml --region $REGION --size 2 $STORAGENAME
 fi
 
 flyctl deploy --app $APPNAME --build-only
