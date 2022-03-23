@@ -11,6 +11,10 @@ DEPLOY=$APPNAME.deploy
 STORAGENAME=$(echo -n $APPNAME | sed -e 's/-/_/g')_data
 REGION=iad
 
+# select testnet or mainnet
+echo "Do you want to run on testnet or mainnet"
+read MOB_CHAIN
+
 # get fly org interactively
 echo "What fly.io organization to use?"
 read FLY_ORG
@@ -21,8 +25,13 @@ read FLY_ORG
 mkdir -p $DEPLOY
 cat fly.toml | sed -e "s/rose-gadget-abstract-high/$APPNAME/" | sed -e "s/rose_gadget_abstract_high_data/$STORAGENAME/" > $DEPLOY/fly.toml
 cp Dockerfile stunnel.docker.conf run.sh $DEPLOY/
-mv $APPNAME.secrets $DEPLOY/
+mv $APPNAME.secrets $APPNAME.clientsecrets $DEPLOY/
+if [[ "$MOB_CHAIN" == testnet ]]; then
+    cp run-test.sh $DEPLOY/run.sh
+fi
 
+# set the chain target
+sed -i "s/mainnet/$MOB_CHAIN/g" $DEPLOY/Dockerfile
 
 # do the deploy on Fly
 cd $DEPLOY
